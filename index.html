@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regalo Junta Directiva · FMO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Sistema de Marca FMO v1.0 (mismos valores que plataforma-fmo/src/brand.js) */
+:root {
+  --verde: #abd037;      /* Pantone 380 C · solo relleno, nunca texto sobre blanco */
+  --gris: #6d6e71;       /* Pantone Black 7 C */
+  --negro: #000;
+  --morado: #7b2cbf;     /* Pantone Purple C · apoyo, no va en el logo */
+  --azul: #013a52;       /* Pantone 295 C · mejor contraste */
+  --c-ingles: #E0321C; --c-robotica: #0A3C63; --c-nt: #2CACD0;
+  --c-teachlabs: #7b2cbf; --c-hse: #F4C400; --c-becas: #abd037; --c-fmo: #013a52;
+  --fondo: #F4F4F2; --papel: #fff; --linea: #E6E6EA; --suave: #F1F1F4;
+  --radio: 14px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--fondo); color: var(--negro);
+  font-family: 'Poppins', -apple-system, system-ui, sans-serif;
+  font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+img { display: block; max-width: 100%; }
+[hidden] { display: none !important; }
+
+/* ---------- Encabezado ---------- */
+.hero {
+  background: var(--azul); color: #fff; position: relative; overflow: hidden;
+  padding: 28px 16px 56px;
+}
+.hero::after { /* trazo de la firma: recurso de apoyo, recortado, nunca completo */
+  content: ""; position: absolute; right: -120px; bottom: -70px; width: 560px; height: 260px;
+  background: url("img/trazo-orth.svg") no-repeat center / contain;
+  opacity: .14; filter: brightness(0) invert(1); pointer-events: none;
+}
+.hero-in { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
+.logo-card { display: inline-block; background: #fff; border-radius: 10px; padding: 8px 12px; }
+.logo-card img { height: 40px; width: auto; }
+.eyebrow {
+  margin: 34px 0 8px; font-size: 11.5px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--verde);
+}
+.hero h1 { margin: 0 0 10px; font-size: clamp(28px, 5vw, 44px); line-height: 1.12; font-weight: 700; letter-spacing: -.02em; max-width: 18ch; text-wrap: balance; }
+.hero p { margin: 0; max-width: 60ch; color: #D9E4EA; text-wrap: pretty; }
+.hero .barra { width: 64px; height: 4px; background: var(--verde); border-radius: 2px; margin-top: 22px; }
+
+/* ---------- Pasos ---------- */
+main { max-width: 1080px; margin: -28px auto 0; padding: 0 16px 140px; position: relative; z-index: 2; }
+.paso {
+  background: var(--papel); border: 1px solid var(--linea); border-radius: var(--radio);
+  padding: 24px 22px; margin-bottom: 16px;
+}
+.paso-hd { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+.num {
+  flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--suave); color: var(--azul); font-weight: 700; font-size: 14px; transform: translateY(-2px);
+}
+.paso.listo .num { background: var(--verde); color: var(--azul); }
+.paso h2 { margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
+.ayuda { margin: 0 0 18px 42px; color: var(--gris); font-size: 14px; }
+.paso-body { margin-left: 42px; }
+@media (max-width: 640px) {
+  .paso { padding: 20px 16px; }
+  .ayuda, .paso-body { margin-left: 0; }
+}
+
+/* Chips genéricos (nombre, talla, franja) */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  border: 1.5px solid var(--linea); background: #fff; border-radius: 999px;
+  padding: 9px 16px; cursor: pointer; font-size: 14px; font-weight: 500;
+  transition: border-color .15s, background .15s, color .15s;
+}
+.chip:hover { border-color: var(--azul); }
+.chip[aria-pressed="true"] { background: var(--azul); border-color: var(--azul); color: #fff; }
+.chip:focus-visible, .card:focus-visible, .seg button:focus-visible { outline: 3px solid var(--morado); outline-offset: 2px; }
+
+.saludo { margin: 14px 0 0; font-weight: 500; color: var(--azul); min-height: 1.5em; }
+
+/* Selector camiseta / hoodie */
+.seg { display: inline-flex; background: var(--suave); border-radius: 12px; padding: 4px; gap: 4px; margin-bottom: 14px; }
+.seg button {
+  border: 0; background: transparent; padding: 10px 20px; border-radius: 9px; cursor: pointer;
+  font-weight: 600; font-size: 14px; color: var(--gris);
+}
+.seg button[aria-pressed="true"] { background: #fff; color: var(--azul); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.seg small { display: block; font-weight: 400; font-size: 11.5px; }
+
+.filtros { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 14px; scrollbar-width: thin; }
+.filtros .chip { flex: none; padding: 6px 12px; font-size: 13px; display: inline-flex; align-items: center; gap: 7px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+
+/* Galería */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+@media (max-width: 480px) { .grid { grid-template-columns: 1fr 1fr; gap: 10px; } }
+.card {
+  position: relative; background: #fff; border: 2px solid var(--linea); border-radius: var(--radio);
+  overflow: hidden; cursor: pointer; text-align: left; padding: 0; display: flex; flex-direction: column;
+  transition: border-color .15s, transform .15s, box-shadow .15s;
+}
+.card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(1,58,82,.10); }
+.card[aria-pressed="true"] { border-color: var(--morado); box-shadow: 0 0 0 3px color-mix(in srgb, var(--morado) 20%, transparent); }
+.foto { position: relative; aspect-ratio: 4 / 5; background: #FAFAF8; overflow: hidden; }
+.foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .25s; }
+.foto img.frente { object-fit: contain; padding: 10px; opacity: 0; background: #fff; }
+.card.ver-frente .foto img.frente { opacity: 1; }
+@media (hover: hover) { .card:hover .foto img.frente { opacity: 1; } }
+.girar {
+  position: absolute; left: 8px; bottom: 8px; z-index: 2; border: 0; border-radius: 999px;
+  background: rgba(255,255,255,.92); font-size: 11.5px; font-weight: 500; padding: 4px 10px; cursor: pointer;
+  color: var(--azul);
+}
+@media (hover: hover) { .girar { display: none; } }
+.check {
+  position: absolute; right: 8px; top: 8px; z-index: 2; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--morado); color: #fff; display: none; place-items: center; font-weight: 700; font-size: 15px;
+}
+.card[aria-pressed="true"] .check { display: grid; }
+.info { padding: 10px 12px 12px; }
+.prog { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--gris); display: flex; align-items: center; gap: 6px; }
+.nombre { font-weight: 600; font-size: 14.5px; line-height: 1.3; margin: 3px 0 2px; }
+.color { font-size: 12.5px; color: var(--gris); display: flex; align-items: center; gap: 6px; }
+.muestra { width: 12px; height: 12px; border-radius: 3px; border: 1px solid rgba(0,0,0,.15); flex: none; }
+
+/* Talla */
+.tallas .chip { min-width: 54px; text-align: center; border-radius: 10px; }
+.nota { margin: 12px 0 0; font-size: 13px; color: var(--gris); }
+details.guia { margin-top: 10px; font-size: 13px; }
+details.guia summary { cursor: pointer; color: var(--azul); font-weight: 500; }
+.tabla { border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+.tabla th, .tabla td { border-bottom: 1px solid var(--linea); padding: 6px 12px 6px 0; text-align: left; }
+.tabla th { color: var(--gris); font-weight: 500; }
+
+/* Formulario de envío */
+.campos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+.campos .ancho { grid-column: 1 / -1; }
+@media (max-width: 640px) { .campos { grid-template-columns: 1fr; } }
+label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 5px; }
+label .opc { color: var(--gris); font-weight: 400; }
+input[type=text], input[type=tel], textarea {
+  width: 100%; border: 1.5px solid var(--linea); border-radius: 10px; padding: 11px 13px; background: #fff;
+  font-size: 15px; transition: border-color .15s;
+}
+textarea { resize: vertical; min-height: 70px; }
+input:focus, textarea:focus { outline: none; border-color: var(--morado); }
+.subtitulo { font-size: 13px; font-weight: 600; margin: 0 0 8px; }
+.bloque + .bloque { margin-top: 18px; }
+
+/* Barra de resumen fija */
+.resumen {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: #fff;
+  border-top: 1px solid var(--linea); box-shadow: 0 -6px 24px rgba(0,0,0,.06);
+}
+.resumen-in { max-width: 1080px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; gap: 14px; }
+.resumen .mini { width: 46px; height: 56px; border-radius: 8px; object-fit: cover; background: var(--suave); flex: none; }
+.resumen .texto { flex: 1; min-width: 0; font-size: 13px; color: var(--gris); }
+.resumen .texto b { display: block; color: var(--negro); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.btn {
+  border: 0; border-radius: 12px; padding: 13px 22px; font-weight: 600; font-size: 15px; cursor: pointer;
+  background: var(--morado); color: #fff; flex: none; transition: opacity .15s, transform .15s;
+}
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+@media (max-width: 480px) { .resumen .mini { display: none; } .btn { padding: 12px 16px; } }
+
+/* Confirmación */
+.gracias { display: none; max-width: 640px; margin: -28px auto 60px; padding: 0 16px; position: relative; z-index: 2; }
+.gracias .paso { text-align: center; padding: 36px 24px; }
+.sello { width: 64px; height: 64px; border-radius: 50%; background: var(--verde); color: var(--azul); display: grid; place-items: center; font-size: 30px; font-weight: 700; margin: 0 auto 14px; }
+.gracias h2 { font-size: 24px; margin-bottom: 6px; }
+.gracias .foto-final { width: 180px; margin: 20px auto; border-radius: 12px; }
+.detalle { text-align: left; margin: 18px auto 0; max-width: 420px; font-size: 14px; border-top: 1px solid var(--linea); }
+.detalle div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--linea); }
+.detalle span { color: var(--gris); flex: none; }
+.detalle b { font-weight: 500; text-align: right; }
+body.enviado main, body.enviado .resumen { display: none; }
+body.enviado .gracias { display: block; }
+
+footer { text-align: center; font-size: 12.5px; color: var(--gris); padding: 10px 16px 30px; }
+body:not(.enviado) footer { padding-bottom: 110px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-in">
+    <div class="logo-card"><img src="img/logo-fmo.png" alt="Marina Orth Foundation · Educating for the future"></div>
+    <p class="eyebrow">Junta Directiva · Tienda virtual FMO</p>
+    <h1>Un regalo para quienes hacen posible la Fundación</h1>
+    <p>Escoja la prenda de nuestra colección institucional que quiere recibir. Son los mismos diseños que pronto estarán en la tienda virtual: cada color representa un programa.</p>
+    <div class="barra"></div>
+  </div>
+</header>
+
+<main id="formulario">
+  <!-- 1. Nombre -->
+  <section class="paso" id="p-nombre">
+    <div class="paso-hd"><span class="num">1</span><h2>¿Quién es usted?</h2></div>
+    <p class="ayuda">Seleccione su nombre.</p>
+    <div class="paso-body">
+      <div class="chips" id="nombres" role="group" aria-label="Miembros de Junta Directiva"></div>
+      <p class="saludo" id="saludo"></p>
+    </div>
+  </section>
+
+  <!-- 2. Prenda -->
+  <section class="paso" id="p-prenda">
+    <div class="paso-hd"><span class="num">2</span><h2>Escoja su prenda</h2></div>
+    <p class="ayuda">Las fotos muestran la espalda; pase el cursor (o toque «Ver frente») para ver el frente.</p>
+    <div class="paso-body">
+      <div class="seg" role="group" aria-label="Tipo de prenda">
+        <button type="button" data-tipo="camiseta" aria-pressed="true">Camiseta<small>100 % algodón · manga corta</small></button>
+        <button type="button" data-tipo="hoodie" aria-pressed="false">Hoodie<small>Con capota · interior perchado</small></button>
+      </div>
+      <div class="filtros" id="filtros" role="group" aria-label="Filtrar por programa"></div>
+      <div class="grid" id="galeria"></div>
+    </div>
+  </section>
+
+  <!-- 3. Talla -->
+  <section class="paso" id="p-talla">
+    <div class="paso-hd"><span class="num">3</span><h2>Seleccione la talla</h2></div>
+    <p class="ayuda">Todas las prendas son unisex, de horma regular.</p>
+    <div class="paso-body">
+      <div class="chips tallas" id="tallas" role="group" aria-label="Talla"></div>
+    </div>
+  </section>
+
+  <!-- 4. Envío -->
+  <section class="paso" id="p-envio">
+    <div class="paso-hd"><span class="num">4</span><h2>¿A dónde se la enviamos?</h2></div>
+    <p class="ayuda">Usaremos estos datos solo para la entrega de su regalo.</p>
+    <div class="paso-body campos">
+      <div class="ancho">
+        <label for="direccion">Dirección</label>
+        <input type="text" id="direccion" autocomplete="street-address" placeholder="Ej.: Calle 10 # 43A-30, apto 502">
+      </div>
+      <div>
+        <label for="ciudad">Ciudad / municipio</label>
+        <input type="text" id="ciudad" autocomplete="address-level2" value="Medellín">
+      </div>
+      <div>
+        <label for="telefono">Celular de contacto</label>
+        <input type="tel" id="telefono" autocomplete="tel" placeholder="Para coordinar la entrega">
+      </div>
+      <div class="ancho">
+        <label for="indicaciones">Indicaciones para quien entrega <span class="opc">(opcional)</span></label>
+        <textarea id="indicaciones" placeholder="Ej.: edificio con portería, dejar con el vigilante"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Horario -->
+  <section class="paso" id="p-horario">
+    <div class="paso-hd"><span class="num">5</span><h2>¿Cuándo le queda mejor recibirla?</h2></div>
+    <p class="ayuda">Puede marcar varias opciones.</p>
+    <div class="paso-body">
+      <div class="bloque">
+        <p class="subtitulo">Días</p>
+        <div class="chips" id="dias" role="group" aria-label="Días"></div>
+      </div>
+      <div class="bloque">
+        <p class="subtitulo">Franja horaria</p>
+        <div class="chips" id="franjas" role="group" aria-label="Franja horaria"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="resumen" aria-live="polite">
+  <div class="resumen-in">
+    <img class="mini" id="r-foto" alt="" hidden>
+    <div class="texto" id="r-texto"><b>Aún no ha escogido su prenda</b>Complete los 5 pasos</div>
+    <button class="btn" id="enviar" type="button" disabled>Confirmar mi regalo</button>
+  </div>
+</div>
+
+<section class="gracias" id="gracias" aria-live="polite">
+  <div class="paso">
+    <div class="sello">✓</div>
+    <h2 id="g-titulo">¡Gracias!</h2>
+    <p class="ayuda" style="margin:0">Recibimos su elección. El equipo de Desarrollo Institucional le confirmará la fecha de entrega.</p>
+    <img class="foto-final" id="g-foto" alt="">
+    <div class="detalle" id="g-detalle"></div>
+    <button class="chip" type="button" id="editar" style="margin-top:22px">Cambiar mi elección</button>
+  </div>
+</section>
+
+<footer>Fundación Marina Orth · Educating for the future</footer>
+
+<script>
+/* ---------- Datos ---------- */
+const MIEMBROS = [
+  'Marina Orth Russert', 'Claudia Restrepo', 'Esteban Gómez', 'Jaime Arteaga', 'Marlon Vargas',
+  'Mónica Restrepo', 'Santiago Cock', 'Susan Reichle',
+];
+
+const PROGRAMAS = {
+  hse:       { nombre: 'Habilidades Socioemocionales', color: 'var(--c-hse)' },
+  ingles:    { nombre: 'Inglés',                       color: 'var(--c-ingles)' },
+  robotica:  { nombre: 'Robótica',                     color: 'var(--c-robotica)' },
+  teachlabs: { nombre: 'TeachLabs',                    color: 'var(--c-teachlabs)' },
+  nt:        { nombre: 'Nuevas Tecnologías',           color: 'var(--c-nt)' },
+  becas:     { nombre: 'Voluntarios y Becas',          color: 'var(--c-becas)' },
+  fmo:       { nombre: 'Institucional FMO',            color: 'var(--c-fmo)' },
+};
+
+/* Un diseño por página de los catálogos 00_CAMISETAS y MO_hoodies_2 (págs. 2–17).
+   Las fotos están en img/<tipo>-<id>-espalda.jpg y img/<tipo>-<id>-frente.jpg */
+const DISENOS = [
+  { id: 'hse-beige',          prog: 'hse',       nombre: 'Social Emotional Skills',  color: 'Beige · tinta amarilla',    muestra: '#ECE7DA' },
+  { id: 'hse-amarillo',       prog: 'hse',       nombre: 'Nice People',              color: 'Amarillo',                  muestra: '#E3A21A' },
+  { id: 'ingles-beige',       prog: 'ingles',    nombre: 'Citizens of the World',    color: 'Beige · tinta roja',        muestra: '#ECE7DA' },
+  { id: 'ingles-rojo',        prog: 'ingles',    nombre: 'Citizens of the World',    color: 'Rojo',                      muestra: '#D8441F' },
+  { id: 'robotica-beige',     prog: 'robotica',  nombre: 'Fr13ndly Robots',          color: 'Beige · tinta azul',        muestra: '#ECE7DA' },
+  { id: 'robotica-azul',      prog: 'robotica',  nombre: 'Robots 100% Made in Col',  color: 'Azul petróleo',             muestra: '#0E4A5C' },
+  { id: 'teachlabs-beige',    prog: 'teachlabs', nombre: 'Century Masters',          color: 'Beige · tinta morada',      muestra: '#ECE7DA' },
+  { id: 'teachlabs-morado',   prog: 'teachlabs', nombre: 'Masters',                  color: 'Morado',                    muestra: '#574C9E' },
+  { id: 'nt-beige',           prog: 'nt',        nombre: 'Citizens of the Future',   color: 'Beige · tinta azul',        muestra: '#ECE7DA' },
+  { id: 'nt-azul',            prog: 'nt',        nombre: 'Future',                   color: 'Azul',                      muestra: '#3AA5C0' },
+  { id: 'becas-beige-verde',  prog: 'becas',     nombre: 'Real Impact',              color: 'Beige · tinta verde',       muestra: '#ECE7DA' },
+  { id: 'becas-verde',        prog: 'becas',     nombre: 'Real Impact',              color: 'Verde',                     muestra: '#9DC23E' },
+  { id: 'becas-beige-bosque', prog: 'becas',     nombre: 'Real Impact',              color: 'Beige · tinta verde bosque', muestra: '#ECE7DA' },
+  { id: 'becas-bosque',       prog: 'becas',     nombre: 'Real Impact',              color: 'Verde bosque',              muestra: '#173A2C' },
+  { id: 'fmo-beige',          prog: 'fmo',       nombre: 'Educating for the Future', color: 'Beige · tinta naranja',     muestra: '#ECE7DA' },
+  { id: 'fmo-negro',          prog: 'fmo',       nombre: 'Educating for the Future', color: 'Negro',                     muestra: '#1E1A1A' },
+];
+
+const TALLAS = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+const DIAS = ['Lunes a viernes', 'Sábado'];
+const FRANJAS = ['Mañana (8:00 – 12:00)', 'Tarde (12:00 – 5:00)', 'Cualquier hora'];
+const TIPOS = { camiseta: 'Camiseta', hoodie: 'Hoodie' };
+
+/* ---------- Estado ---------- */
+const estado = { nombre: null, tipo: 'camiseta', diseno: null, talla: null, dias: [], franjas: [], filtro: 'todos' };
+const $ = (s) => document.querySelector(s);
+const foto = (tipo, id, lado) => `img/${tipo}-${id}-${lado}.jpg`;
+
+/* Chips de selección única o múltiple */
+function chips(contenedor, opciones, clave, multiple) {
+  const el = $(contenedor);
+  el.innerHTML = '';
+  opciones.forEach((op) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.textContent = op;
+    b.setAttribute('aria-pressed', 'false');
+    b.onclick = () => {
+      if (multiple) {
+        const i = estado[clave].indexOf(op);
+        i < 0 ? estado[clave].push(op) : estado[clave].splice(i, 1);
+        if (op === 'Cualquier hora' && i < 0) estado[clave] = ['Cualquier hora'];
+        else if (op !== 'Cualquier hora') estado[clave] = estado[clave].filter((x) => x !== 'Cualquier hora');
+      } else {
+        estado[clave] = op;
+      }
+      [...el.children].forEach((c) => c.setAttribute('aria-pressed',
+        multiple ? estado[clave].includes(c.textContent) : c.textContent === estado[clave]));
+      actualizar();
+    };
+    el.appendChild(b);
+  });
+}
+
+function pintarFiltros() {
+  const el = $('#filtros');
+  el.innerHTML = '';
+  const ops = [['todos', 'Todos', null], ...Object.entries(PROGRAMAS).map(([k, p]) => [k, p.nombre, p.color])];
+  ops.forEach(([k, nombre, color]) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip';
+    b.innerHTML = (color ? `<span class="dot" style="background:${color}"></span>` : '') + nombre;
+    b.setAttribute('aria-pressed', estado.filtro === k);
+    b.onclick = () => { estado.filtro = k; pintarFiltros(); pintarGaleria(); };
+    el.appendChild(b);
+  });
+}
+
+function pintarGaleria() {
+  const el = $('#galeria');
+  el.innerHTML = '';
+  DISENOS.filter((d) => estado.filtro === 'todos' || d.prog === estado.filtro).forEach((d) => {
+    const p = PROGRAMAS[d.prog];
+    const card = document.createElement('div');
+    card.className = 'card'; card.tabIndex = 0; card.setAttribute('role', 'button');
+    card.setAttribute('aria-pressed', estado.diseno === d.id);
+    card.setAttribute('aria-label', `${TIPOS[estado.tipo]} ${d.nombre}, ${d.color}`);
+    card.innerHTML = `
+      <div class="foto">
+        <img src="${foto(estado.tipo, d.id, 'espalda')}" alt="" loading="lazy">
+        <img class="frente" src="${foto(estado.tipo, d.id, 'frente')}" alt="" loading="lazy">
+        <span class="check">✓</span>
+        <button type="button" class="girar">Ver frente</button>
+      </div>
+      <div class="info">
+        <div class="prog"><span class="dot" style="background:${p.color}"></span>${p.nombre}</div>
+        <div class="nombre">${d.nombre}</div>
+        <div class="color"><span class="muestra" style="background:${d.muestra}"></span>${d.color}</div>
+      </div>`;
+    const girar = card.querySelector('.girar');
+    girar.onclick = (e) => {
+      e.stopPropagation();
+      card.classList.toggle('ver-frente');
+      girar.textContent = card.classList.contains('ver-frente') ? 'Ver espalda' : 'Ver frente';
+    };
+    const elegir = () => { estado.diseno = d.id; pintarGaleria(); actualizar(); };
+    card.onclick = elegir;
+    card.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); elegir(); } };
+    el.appendChild(card);
+  });
+}
+
+document.querySelectorAll('.seg button').forEach((b) => {
+  b.onclick = () => {
+    estado.tipo = b.dataset.tipo;
+    document.querySelectorAll('.seg button').forEach((x) => x.setAttribute('aria-pressed', x === b));
+    pintarGaleria(); actualizar();
+  };
+});
+
+['#direccion', '#ciudad', '#telefono', '#indicaciones'].forEach((s) => $(s).addEventListener('input', actualizar));
+
+function pedido() {
+  return {
+    nombre: estado.nombre,
+    tipo: TIPOS[estado.tipo],
+    diseno: estado.diseno,
+    talla: estado.talla,
+    direccion: $('#direccion').value.trim(),
+    ciudad: $('#ciudad').value.trim(),
+    telefono: $('#telefono').value.trim(),
+    indicaciones: $('#indicaciones').value.trim(),
+    dias: estado.franjas.includes('Cualquier hora') && !estado.dias.length ? DIAS.slice() : estado.dias,
+    franjas: estado.franjas,
+  };
+}
+
+function actualizar() {
+  const p = pedido();
+  const d = DISENOS.find((x) => x.id === estado.diseno);
+  const pasos = {
+    '#p-nombre': !!p.nombre,
+    '#p-prenda': !!d,
+    '#p-talla': !!p.talla,
+    '#p-envio': p.direccion.length > 5 && p.ciudad && p.telefono.replace(/\D/g, '').length >= 7,
+    '#p-horario': p.dias.length > 0 && p.franjas.length > 0,
+  };
+  Object.entries(pasos).forEach(([s, ok]) => $(s).classList.toggle('listo', !!ok));
+  const faltan = Object.values(pasos).filter((x) => !x).length;
+
+  $('#saludo').textContent = p.nombre ? `Hola, ${p.nombre.split(' ')[0]}. Gracias por acompañarnos.` : '';
+  const img = $('#r-foto');
+  if (d) {
+    img.src = foto(estado.tipo, d.id, 'espalda'); img.hidden = false;
+    $('#r-texto').innerHTML = `<b>${p.tipo} «${d.nombre}» · ${d.color}${p.talla ? ' · Talla ' + p.talla : ''}</b>` +
+      (faltan ? `Faltan ${faltan} ${faltan === 1 ? 'paso' : 'pasos'}` : 'Todo listo');
+  } else {
+    img.hidden = true;
+    $('#r-texto').innerHTML = `<b>Aún no ha escogido su prenda</b>Faltan ${faltan} ${faltan === 1 ? 'paso' : 'pasos'}`;
+  }
+  $('#enviar').disabled = faltan > 0;
+}
+
+/* Lovable: reemplazar por el guardado en la base de datos (ver LEEME-LOVABLE.md). */
+async function enviarPedido(datos) {
+  console.log('Pedido', datos);
+}
+
+$('#enviar').onclick = async () => {
+  const p = pedido();
+  const d = DISENOS.find((x) => x.id === p.diseno);
+  $('#enviar').disabled = true;
+  await enviarPedido({ ...p, diseno_nombre: `${d.nombre} · ${d.color}`, programa: PROGRAMAS[d.prog].nombre });
+  $('#g-titulo').textContent = `¡Gracias, ${p.nombre.split(' ')[0]}!`;
+  $('#g-foto').src = foto(estado.tipo, d.id, 'espalda');
+  const filas = [
+    ['Prenda', `${p.tipo} «${d.nombre}»`], ['Color', d.color], ['Talla', p.talla],
+    ['Dirección', `${p.direccion}, ${p.ciudad}`], ['Celular', p.telefono],
+    ['Entrega', `${p.dias.join(' y ')} · ${p.franjas.join(', ')}`],
+  ];
+  if (p.indicaciones) filas.push(['Indicaciones', p.indicaciones]);
+  const det = $('#g-detalle');
+  det.innerHTML = '';
+  filas.forEach(([k, v]) => {
+    const row = document.createElement('div');
+    row.innerHTML = '<span></span><b></b>';
+    row.children[0].textContent = k; row.children[1].textContent = v;
+    det.appendChild(row);
+  });
+  document.body.classList.add('enviado');
+  window.scrollTo({ top: 0 });
+};
+
+$('#editar').onclick = () => { document.body.classList.remove('enviado'); actualizar(); };
+
+chips('#nombres', MIEMBROS, 'nombre', false);
+chips('#tallas', TALLAS, 'talla', false);
+chips('#dias', DIAS, 'dias', true);
+chips('#franjas', FRANJAS, 'franjas', true);
+pintarFiltros();
+pintarGaleria();
+actualizar();
+</script>
+</body>
+</html>
